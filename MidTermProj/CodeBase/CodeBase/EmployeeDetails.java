@@ -1,93 +1,39 @@
-package Project.CodeBase.CodeBase;
-
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class EmployeeDetails {
-
-    private String employeeId;
-    private String employeeName;
-    private String department;
     private Payroll payroll;
 
     public EmployeeDetails() {
-        this.payroll = new Payroll(); // connect to Payroll class
+        this.payroll = new Payroll();  // create Payroll object to store data
     }
 
     public void inputEmployeeDetails() {
         Scanner scanner = new Scanner(System.in);
 
-        try {
-            System.out.println("Welcome to ABC Payroll System");
+        System.out.print("Enter Employee ID: ");
+        String id = scanner.nextLine();
+        payroll.setEmployeeId(id);
 
-            String regex = "^EMP-\\d{4}$";
+        System.out.print("Enter Employee Name: ");
+        String name = scanner.nextLine();
+        payroll.setEmployeeName(name);
 
-            while (true) {
-                System.out.print("Enter Employee ID (Format: EMP-XXXX): ");
-                String inputId = scanner.nextLine();
+        System.out.print("Enter Department: ");
+        String dept = scanner.nextLine();
+        payroll.setDepartment(dept);
 
-                if (Pattern.matches(regex, inputId)) {
-                    this.setEmployeeId(inputId);
-                    break;
-                }
-                System.out.println("Invalid format. Please follow the format: EMP-XXXX");
-            }
+        System.out.print("Enter Basic Salary: ");
+        double salary = scanner.nextDouble();
+        payroll.setBasicSalary(salary);
 
-            while (true) {
-                System.out.print("Enter Full Name: ");
-                String nameInput = scanner.nextLine().trim();
-                if (!nameInput.isEmpty() && !nameInput.matches(".*\\d.*")) {
-                    this.setEmployeeName(nameInput);
-                    break;
-                }
-                System.out.println("Invalid input. Please try again!");
-            }
-
-            System.out.print("Enter Department: ");
-            this.setDepartment(scanner.nextLine());
-
-            System.out.print("Enter Basic Monthly Salary ₱: ");
-            double basicSalary = scanner.nextDouble();
-            while (basicSalary < 0) {
-                System.out.print("Negative value! Enter again: ");
-                basicSalary = scanner.nextDouble();
-            }
-
-            System.out.print("Enter Overtime Hours Worked: ");
-            int overtimeHours = scanner.nextInt();
-            while (overtimeHours < 0) {
-                System.out.print("Negative value! Enter again: ");
-                overtimeHours = scanner.nextInt();
-            }
-
-            // Set the payroll data via the Payroll class setters
-            payroll.setBasicSalary(basicSalary);
-            payroll.setOvertimeHours(overtimeHours);
-
-            // Now you can add methods like:
-            // calculatePayrollValues() or printPayslip() if you want
-
-        } catch (Exception e) {
-            System.out.println("An error occurred: Invalid input.");
-        }
+        System.out.print("Enter Overtime Hours: ");
+        int hours = scanner.nextInt();
+        payroll.setOvertimeHours(hours);
     }
 
-    // Getters and setters for employee fields
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
+    //allows other classes to access the payroll object that’s
+    // stored inside the EmployeeDetails class.
     public Payroll getPayroll() {
         return payroll;
     }
-
-    // Optionally: getters for ID, name, etc. if needed
 }
